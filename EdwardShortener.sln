@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EdwardShortener", "EdwardShortener\EdwardShortener.csproj", "{989ADDC6-7D3C-4FFE-992A-B4E4A42C448B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EdwardShortener.Tests", "EdwardShortener.Tests\EdwardShortener.Tests.csproj", "{B4A119DA-899B-4944-8373-891A944E93EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{989ADDC6-7D3C-4FFE-992A-B4E4A42C448B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{989ADDC6-7D3C-4FFE-992A-B4E4A42C448B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{989ADDC6-7D3C-4FFE-992A-B4E4A42C448B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{989ADDC6-7D3C-4FFE-992A-B4E4A42C448B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4A119DA-899B-4944-8373-891A944E93EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4A119DA-899B-4944-8373-891A944E93EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4A119DA-899B-4944-8373-891A944E93EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4A119DA-899B-4944-8373-891A944E93EB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
