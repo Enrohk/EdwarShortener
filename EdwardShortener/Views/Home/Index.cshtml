@@ -1,17 +1,44 @@
-﻿@{
-    Layout = null;
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<EdwardShortener.Objects.BlogPost>
+@{
+    Layout = "Views/Shared/_Layout.cshtml";
 }
-
 <!DOCTYPE html>
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
+    <script type="text/javascript">
+        function dummy()
+        {
+            $("#a").hide();
+        }
+    </script>
+    
+    
 </head>
 <body>
     <div>
-        fdwefew    
+        <table class="table">
+            <thead>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Tags</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Model.id</td>
+                    <td>@Model.Title</td>
+                    <td>@Model.Content</td>
+                    <td>@string.Join(", ", Model.Tags)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div>
+            <input type="button" class="btn" onclick="javascript: dummy();" value="Push"/>
+            <a id="a">aaaa</a>
+        </div>
+
     </div>
 </body>
 </html>
