@@ -1,4 +1,4 @@
-﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<EdwardShortener.Objects.BlogPost>
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<EdwardShortener.Objects.UrlObject>
 @{
     Layout = "Views/Shared/_Layout.cshtml";
 }
@@ -6,38 +6,21 @@
 
 <html>
 <head>
-    <script type="text/javascript">
-        function dummy()
-        {
-            $("#a").hide();
-        }
-    </script>
-    
-    
+
+       
 </head>
 <body>
     <div>
-        <table class="table">
-            <thead>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Tags</th>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>@Model.id</td>
-                    <td>@Model.Title</td>
-                    <td>@Model.Content</td>
-                    <td>@string.Join(", ", Model.Tags)</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div>
-            <input type="button" class="btn" onclick="javascript: dummy();" value="Push"/>
-            <a id="a">aaaa</a>
+        <div id="leftSide">
+            <div id="urlDiv" width="50%">
+                <form action="/addUrl/" method="post">
+                    <label id="pastLblId">Paste your long URL here:</label>
+                    <input type="text" class="form-control" id="textInputId" value="" />
+                    <input type="submit" class="btn-default" value="Shorten URL" />
+                </form>
+            </div>
         </div>
+        
 
     </div>
 </body>

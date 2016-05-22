@@ -173,8 +173,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="modules\HomeModule.cs" />
-    <Compile Include="Objects\BlogPost.cs" />
+    <Compile Include="modules\EdShortenerAPIModule.cs" />
+    <Compile Include="Objects\UrlObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <PropertyGroup>

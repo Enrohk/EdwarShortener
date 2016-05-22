@@ -1,5 +1,6 @@
 ﻿using EdwardShortener.Objects;
 using Nancy;
+using Nancy.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +15,14 @@ namespace EdwardShortener.modules
         {
             Get["/"] = parameters =>
             {
-                var blogPost = new BlogPost
-                {
-                    id = 1,
-                    Title = "Just Test",
-                    Content = "Dummy",
-                    Tags = {"Tag", "SuperTag"}
-                };
-                return View["Index", blogPost];
+
+                return View["Index"];
+            };
+
+            Post["/addUrl"] = parameters =>
+            {
+                var urlToAdd = this.Bind<UrlObject>();
+                return View["Index"];
             };
         }
 
