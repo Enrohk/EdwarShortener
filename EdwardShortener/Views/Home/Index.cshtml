@@ -10,18 +10,168 @@
        
 </head>
 <body>
-    <div>
-        <div id="leftSide">
-            <div id="urlDiv" width="50%">
-                <form action="/addUrl/" method="post">
-                    <label id="pastLblId">Paste your long URL here:</label>
-                    <input type="text" class="form-control" id="textInputId" value="" />
-                    <input type="submit" class="btn-default" value="Shorten URL" />
-                </form>
+    <div class="container">
+
+        <br><br><br>
+
+        <div class="table-responsive col-lg-8" style="float: left;">
+
+            <div class="panel panel-info">
+                <div class="row">
+                    <div class="panel-body">
+                        <b>Paste your long URL here:</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel-body">
+                        <div class="col-lg-10"> <input class="form-control"></input></div>
+                        <div> <button type="button" class="btn btn-primary">Shorten URL</button></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel-body">
+                        Short your larges URLS with the best scissorman ever
+                    </div>
+                </div>
+            </div>
+
+            <div style="float: right;">
+                <table>
+                    <tr>
+                        <td style="padding: 10px;"><p>Clicks for the past:</p></td>
+                        <td>
+                            <ul class="list-inline">
+                                <li><a class="timeList" href="#" onclick="javascript:changClicksTime('hours',this);">Two hours</a></li>
+                                <li><a class="timeList" href="#" onclick="javascript:changClicksTime('days',this);">Day</a></li>
+                                <li><a class="timeList" href="#" onclick="javascript:changClicksTime('weeks',this);">Week</a></li>
+                                <li><a class="timeList" href="#" onclick="javascript:changClicksTime('months',this);">Month</a></li>
+                                <li><a class="timeList" href="#" onclick="javascript:changClicksTime('all',this);" style="font-weight: bold; color: black;">All time</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <table id="mytable" class="table table-hover" data-toggle="table">
+                    <thead>
+                        <tr>
+                            <th><input id="allChecks" type="checkbox"></input></th>
+                            <th colspan="2">Long URL</th>
+                            <th>Created</th>
+                            <th>Short URL</th>
+                            <th></th>
+                            <th>Clicks</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td colspan="2">ONe LOng URL</td>
+                            <td>Data time Created</td>
+                            <td><a href="#">Short Url</a></td>
+                            <td><a href="#">Details</a></td>
+                            <td><p class="text-center">1</p></td>
+                            <td><span style="float: right; display: none;" class="glyphicon glyphicon-forward"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td colspan="2">Other Long URL</td>
+                            <td>Data time created 2</td>
+                            <td><a href="#">Short Url 2</a></td>
+                            <td><a href="#">Details</a></td>
+                            <td><p class="text-center">2</p></td>
+                            <td><span style="float: right; display: none;" class="glyphicon glyphicon-forward"></span></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td colspan="2">Another Lng URL</td>
+                            <td>Data time created 3</td>
+                            <td><a href="#">Short Url 3</a></td>
+                            <td><a href="#">Details</a></td>
+                            <td><p class="text-center">3</p></td>
+                            <td><span style="float: right; display: none;" class="glyphicon glyphicon-forward"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table class="col-lg-12">
+                    <tr>
+                        <td><button type="button" class="btn btn-default">Hide</button></td>
+                        <td> <h6>Hidden URLs remain public, but are removed from your history</h6></td>
+                        <td>
+                            <table class="col-lg-12">
+                                <tr>
+                                    <td>
+                                        <p><b>1 - 3</b> of <b>3</b></p>
+                                    </td>
+                                    <td>
+                                        <ul class="pagination  pagination-sm">
+                                            <li><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+                                            <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
-        
+
+        <div id="shortedUrlDV" style="float: right; display: none;">
+            <div>
+                <div>
+                    <input id="copyLinkDv" value="eeeee" class="text-center input-lg bg-primary form-control" style="color: blue" readonly onclick="javascript:copyLink();"></input>
+                </div>
+                <div>
+                    <br>
+                    <p>Date time - <a href="#">Details</a></p>
+                    <p><a href="#"><b>Long URL</b></a></p>
+                    <img src="https://goo.gl/gwt/7967027EDBA445C608CA3B1F9608C883.cache.png" />
+                </div>
+            </div>
+        </div>
 
     </div>
+
+    <script>
+
+$('#copyLinkDv').tooltip({title: "Press CTRL-C to copy", placement: "top", trigger: "focus"});
+
+$("#allChecks").change(function () {
+    $("input:checkbox").prop('checked', $(this).prop("checked"));
+});
+
+$('#mytable').on('click', 'tbody tr', function(event) {
+    $(this).addClass('active').siblings().removeClass('active');
+    $('#mytable').find('.glyphicon').hide();
+    $(this).find('.glyphicon').show();
+    $("#shortedUrlDV").show();
+    copyLink();
+});
+
+
+function changClicksTime(time, elem)
+{
+
+   $('.timeList').css('font-weight', '');
+   $('.timeList').css('color', '');
+   $(elem).css('font-weight', 'bold');
+   $(elem).css('color', 'black');
+
+}
+
+function copyLink ()
+{
+  $('#copyLinkDv').select();
+  $('#copyLinkDv').focus();
+  $("[data-toggle='tooltip']").tooltip('show');
+}
+
+
+
+    </script>
 </body>
 </html>
