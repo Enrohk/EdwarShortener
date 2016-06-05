@@ -141,6 +141,7 @@
     <Content Include="Content\Scripts\jquery-2.2.3.min.map" />
     <Content Include="Views\Shared\_ViewStart.cshtml" />
     <Content Include="Views\Home\_TableUrl.cshtml" />
+    <Content Include="Views\Home\_ShortedUrlInfo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
