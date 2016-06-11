@@ -1,4 +1,4 @@
-﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<EdwardShortener.Objects.UrlObject>
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<EdwardShortener.Objects.User>
 @{
     Layout = "Views/Shared/_Layout.cshtml";
 }
@@ -51,7 +51,7 @@
                     </tr>
                 </table>
             </div>
-            @Html.Partial("Views/Home/_TableUrl.cshtml")
+            @Html.Partial("Views/Home/_TableUrl.cshtml", @Model.userUrlList)
             <div>
                 <table class="col-lg-12">
                     <tr>

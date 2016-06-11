@@ -15,16 +15,22 @@ namespace EdwardShortener.modules
         {
             Get["/"] = parameters =>
             {
-
-                return View["Index"];
+                User u = new User();
+                UserUrlList list = new UserUrlList();
+                list.urlLists = new List<UrlObject>();
+                UrlObject o;
+                for (int i = 0; i<10; i++)
+                {
+                    o = new UrlObject();
+                    o.id = i;
+                    o.shotUrl = "short " + i;
+                    o.longUrl = "long" + i;
+                    list.urlLists.Add(o);
+                }
+                u.userUrlList = list;
+                return View["Index",u];
             };
-
-            Post["/addUrl"] = parameters =>
-            {
-                var urlToAdd = this.Bind<UrlObject>();
-                return View["Index"];
-            };
-
+           
             Get["/test"] = parameters =>
             {
 

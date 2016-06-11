@@ -1,44 +1,33 @@
-﻿<div>
-    <table id="mytable" class="table table-hover" data-toggle="table">
-        <thead>
-            <tr>
-                <th><input id="allChecks" type="checkbox"/></th>
-                <th colspan="2">Long URL</th>
-                <th>Created</th>
-                <th>Short URL</th>
-                <th></th>
-                <th>Clicks</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><input type="checkbox"></td>
-                <td colspan="2">ONe LOng URL</td>
-                <td>Data time Created</td>
-                <td><a href="#">Short Url</a></td>
-                <td><a href="#">Details</a></td>
-                <td><p class="text-center">1</p></td>
-                <td><span style="float: right; display: none;" class="glyphicon glyphicon-forward"></td>
-            </tr>
-            <tr>
-                <td><input type="checkbox"></td>
-                <td colspan="2">Other Long URL</td>
-                <td>Data time created 2</td>
-                <td><a href="#">Short Url 2</a></td>
-                <td><a href="#">Details</a></td>
-                <td><p class="text-center">2</p></td>
-                <td><span style="float: right; display: none;" class="glyphicon glyphicon-forward"></span></td>
-            </tr>
-            <tr>
-                <td><input type="checkbox"></td>
-                <td colspan="2">Another Lng URL</td>
-                <td>Data time created 3</td>
-                <td><a href="#">Short Url 3</a></td>
-                <td><a href="#">Details</a></td>
-                <td><p class="text-center">3</p></td>
-                <td><span style="float: right; display: none;" class="glyphicon glyphicon-forward"></span></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<EdwardShortener.Objects.UserUrlList>
+@if (Model != null)
+{
+    <div>
+        <table id="mytable" class="table table-hover" data-toggle="table">
+            <thead>
+                <tr>
+                    <th><input id="allChecks" type="checkbox" /></th>
+                    <th colspan="2">Long URL</th>
+                    <th>Created</th>
+                    <th>Short URL</th>
+                    <th></th>
+                    <th>Clicks</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var urlObject in @Model.urlLists)
+                { 
+                    <tr>
+                    <td><input type="checkbox"></td>
+                    <td colspan="2"><a href="@urlObject.longUrl">@urlObject.longUrl</a></td>
+                    <td>Data time Created</td>
+                    <td colspan="2"><a href="@urlObject.shotUrl">@urlObject.shotUrl</a></td>
+                    <td><a href="#">Details</a></td>
+                    <td><p class="text-center">1</p></td>
+                    <td><span style="float: right; display: none;" class="glyphicon glyphicon-forward"></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
