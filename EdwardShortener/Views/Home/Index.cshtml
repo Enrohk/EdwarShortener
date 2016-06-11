@@ -80,9 +80,12 @@
   
 
         <div id="shortedUrlDV" style="float: right; display:none;">
-            @Html.Partial("Views/Home/_ShortedUrlInfo.cshtml")          
+            
+            @Html.Partial("Views/Home/_ShortedUrlInfo.cshtml") ;         
         </div>
-
+        <div id="shortedUrlDV2">
+            
+        </div>
 
     </div>
 
@@ -98,7 +101,11 @@
             $(this).addClass('active').siblings().removeClass('active');
             $('#mytable').find('.glyphicon').hide();
             $(this).find('.glyphicon').show();
-            $("#shortedUrlDV").show();
+            //$("#shortedUrlDV").show();
+            $.get("/test", function (data) {
+                var render = @Html.Partial("Views/Home/_ShortedUrlInfo.cshtml");
+                $("#shortedUrlDV2").html(render);
+            });
             copyLink();
         });
 
