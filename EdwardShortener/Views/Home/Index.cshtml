@@ -79,19 +79,15 @@
 
   
 
-        <div id="shortedUrlDV" style="float: right; display:none;">
-            
-            @Html.Partial("Views/Home/_ShortedUrlInfo.cshtml") ;         
-        </div>
-        <div id="shortedUrlDV2">
-            
-        </div>
+        <div id="shortedUrlDV" style="float: right;">
+                        
+        </div>        
 
     </div>
 
     <script type="text/javascript">
 
-        $('#copyLinkDv').tooltip({ title: "Press CTRL-C to copy", placement: "top", trigger: "focus" });
+       
 
         $("#allChecks").change(function () {
             $("input:checkbox").prop('checked', $(this).prop("checked"));
@@ -100,13 +96,13 @@
         $('#mytable').on('click', 'tbody tr', function (event) {
             $(this).addClass('active').siblings().removeClass('active');
             $('#mytable').find('.glyphicon').hide();
-            $(this).find('.glyphicon').show();
-            //$("#shortedUrlDV").show();
+            $(this).find('.glyphicon').show();            
             $.get("/test", function (data) {
-                var render = @Html.Partial("Views/Home/_ShortedUrlInfo.cshtml");
-                $("#shortedUrlDV2").html(render);
+                debugger;
+                $("#shortedUrlDV").html(data);
+                copyLink();
             });
-            copyLink();
+           
         });
 
 
@@ -120,6 +116,7 @@
         }
 
         function copyLink() {
+            $('#copyLinkDv').tooltip({ title: "Press CTRL-C to copy", placement: "top", trigger: "focus" });
             $('#copyLinkDv').select();
             $('#copyLinkDv').focus();
             $("[data-toggle='tooltip']").tooltip('show');

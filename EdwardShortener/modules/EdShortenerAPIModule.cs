@@ -28,12 +28,14 @@ namespace EdwardShortener.modules
             Get["/test"] = parameters =>
             {
 
-                return Response.AsJson<UrlObject>(new UrlObject
-                {
-                    shotUrl = "lelele",
-                    longUrl = "leleleeeeee",
-                    id = 1
-                });
+
+                UrlObject u = new UrlObject();
+
+                u.shotUrl = "lelele";
+                u.longUrl = "leleleeeeee";
+                u.id = 1;
+                return View["_ShortedUrlInfo", u];
+
             };
 
 
