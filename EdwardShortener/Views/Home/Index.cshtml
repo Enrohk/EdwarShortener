@@ -24,7 +24,7 @@
                 </div>
                 <div class="row">
                     <div class="panel-body">
-                        <div class="col-lg-10"> <input class="form-control"></input></div>
+                        <div class="col-lg-10"> <input class="form-control"/></div>
                         <div> <button type="button" class="btn btn-primary">Shorten URL</button></div>
                     </div>
                 </div>
@@ -79,14 +79,14 @@
 
   
 
-        <div id="shortedUrlDV" style="float: right;">
+        <div id="shortedUrlDV" style="float: right; display:none;">
             @Html.Partial("Views/Home/_ShortedUrlInfo.cshtml")          
         </div>
 
 
     </div>
 
-    <script>
+    <script type="text/javascript">
 
         $('#copyLinkDv').tooltip({ title: "Press CTRL-C to copy", placement: "top", trigger: "focus" });
 
@@ -118,5 +118,6 @@
             $("[data-toggle='tooltip']").tooltip('show');
         }
     </script>
+    
 </body>
 </html>

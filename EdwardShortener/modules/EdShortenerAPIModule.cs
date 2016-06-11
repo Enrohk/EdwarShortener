@@ -11,7 +11,7 @@ namespace EdwardShortener.modules
     public class HomeModule : NancyModule
     {
 
-        public HomeModule ()
+        public HomeModule()
         {
             Get["/"] = parameters =>
             {
@@ -24,6 +24,19 @@ namespace EdwardShortener.modules
                 var urlToAdd = this.Bind<UrlObject>();
                 return View["Index"];
             };
+
+            Get["/test"] = parameters =>
+            {
+
+                return Response.AsJson<UrlObject>(new UrlObject
+                {
+                    shotUrl = "lelele",
+                    longUrl = "leleleeeeee",
+                    id = 1
+                });
+            };
+
+
         }
 
     }
