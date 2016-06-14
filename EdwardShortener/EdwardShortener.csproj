@@ -197,6 +197,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BootstrapBundleConfig.cs" />
     <Compile Include="modules\EdShortenerAPIModule.cs" />
+    <Compile Include="Objects\Click.cs" />
     <Compile Include="Objects\User.cs" />
     <Compile Include="Objects\UserUrlList.cs" />
     <Compile Include="Objects\UrlObject.cs" />
