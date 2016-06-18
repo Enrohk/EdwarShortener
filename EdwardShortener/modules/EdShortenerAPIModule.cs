@@ -26,20 +26,23 @@ namespace EdwardShortener.modules
                 UserUrlList list = TableFunctions.getUserList(parameters.date);
                 return View["_TableUrl", list];
             };
-           
-            Get["/test"] = parameters =>
+
+            Get["/tableDetails/{urlObjectId}"] = parameters =>
             {
-
-
-                UrlObject u = new UrlObject();
-
-                u.shotUrl = "lelele";
-                u.longUrl = "leleleeeeee";
-                u.id = 1;
-                return View["_ShortedUrlInfo", u];
-
+                DBConnector connector = new DBConnector();
+                string query = Properties.Resources.SQL_Function_GerUrlObjectById;
+                int id = parameters.urlObjectId;
+                var param = new { QueryId = id };
+                List<UrlObject> listObject = connector.getListItem<UrlObject>(query, param);
+                if(listObject.Count == 1)
+                {
+                    return View["_ShortedUrlInfo", listObject.FirstOrDefault()];
+                }
+                else
+                {
+                    return "error";
+                }
             };
-
 
         }
 

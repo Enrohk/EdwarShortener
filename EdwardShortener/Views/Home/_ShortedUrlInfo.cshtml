@@ -3,12 +3,12 @@
 {
     <div>
         <div>
-            <input id="copyLinkDv" value="@Model.shotUrl" class="text-center input-lg bg-primary form-control" style="color: blue" readonly onclick="javascript:copyLink();"/>
+            <input id="copyLinkDv" value="@Model.shortUrl" class="text-center input-lg bg-primary form-control" style="color: blue" readonly onclick="javascript:copyLink();"/>
         </div>
         <div>
             <br>
-            <p>Date time - <a href="#">Details</a></p>
-            <p><a href="@Model.longUrl"><b>Long URL</b></a></p> 
+            <p>@Model.created.ToShortDateString() - <a href="#">Details</a></p>
+            <p><a href="@Model.longUrl"><b>@Model.longUrl</b></a></p> 
             <img/>
             
         </div>

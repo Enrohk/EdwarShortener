@@ -9,10 +9,8 @@ namespace EdwardShortener.Objects
     {
         public int id { get; set; }
         public string longUrl { get; set; }
-        public string shotUrl { get; set; }
+        public string shortUrl { get; set; }
         public DateTime created { get; set; }
-        public List<Click> clicks { get; set; }     
-
 
         public UrlObject ()
         {

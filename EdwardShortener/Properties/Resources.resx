@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="SQL_Function_GerUrlObjectById" xml:space="preserve">
+    <value>SELECT * FROM [dbo].[SQL_Function_GerUrlObjectById] (@QueryId)</value>
+  </data>
   <data name="SQL_Function_GetTableUrlList" xml:space="preserve">
     <value>SELECT * FROM [dbo].[SQL_Function_ShortedURIListByTime] (@QueryTime)</value>
   </data>

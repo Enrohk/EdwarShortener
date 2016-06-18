@@ -61,6 +61,15 @@ namespace EdwardShortener.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM [dbo].[SQL_Function_GerUrlObjectById] (@QueryId).
+        /// </summary>
+        public static string SQL_Function_GerUrlObjectById {
+            get {
+                return ResourceManager.GetString("SQL_Function_GerUrlObjectById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM [dbo].[SQL_Function_ShortedURIListByTime] (@QueryTime).
         /// </summary>
         public static string SQL_Function_GetTableUrlList {

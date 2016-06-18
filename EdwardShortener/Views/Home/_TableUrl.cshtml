@@ -1,6 +1,7 @@
 ﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<EdwardShortener.Objects.UserUrlList>
 @if (Model != null)
 {
+    
     <div>
         <table id="mytable" class="table table-hover" data-toggle="table">
             <thead>
@@ -20,14 +21,57 @@
                     <tr>
                         <td><input type="checkbox"></td>
                         <td colspan="2"><a href="@urlObject.longUrl">@urlObject.longUrl</a></td>
-                        <td>Data time Created</td>
+                        <td>@urlObject.created.ToShortDateString()</td>
                         <td><a href="@urlObject.shortUrl">@urlObject.shortUrl</a></td>
                         <td><a href="#">Details</a></td>
-                        <td><p class="text-center">@urlObject.clicks</p></td>
+                        <td><p class="text-center">@urlObject.clicks</p>
+                            <input id="idHidden" type="hidden" value="@urlObject.id" /></td>
                         <td><span style="float: right; display: none;" class="glyphicon glyphicon-forward"></td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
+    
+
+    <script type="text/javascript">
+
+        $("#allChecks").change(function () {
+            $("input:checkbox").prop('checked', $(this).prop("checked"));
+        });
+
+        $('#mytable').on('click', 'tbody tr', function (event) {
+            $(this).addClass('active').siblings().removeClass('active');
+            $('#mytable').find('.glyphicon').hide();
+            $(this).find('.glyphicon').show();
+            var id = $(this).find('#idHidden').val();            
+            $.get("/tableDetails/" + id, function (data) {
+                $("#shortedUrlDV").html(data);
+                $("#shortedUrlDV").show();
+                copyLink();
+            });
+
+        });
+
+        function changClicksTime(time, elem) {
+
+            $('.timeList').css('font-weight', '');
+            $('.timeList').css('color', '');
+            $(elem).css('font-weight', 'bold');
+            $(elem).css('color', 'black');
+            $.get("/table/" + time, function (data) {
+                $("#tableUrlListDV").html(data);
+            });
+            $("#shortedUrlDV").hide();
+
+        }
+
+        function copyLink() {
+            $('#copyLinkDv').tooltip({ title: "Press CTRL-C to copy", placement: "top", trigger: "focus" });
+            $('#copyLinkDv').select();
+            $('#copyLinkDv').focus();
+            $("[data-toggle='tooltip']").tooltip('show');
+        }
+
+    </script>
 }
