@@ -51,7 +51,9 @@
                     </tr>
                 </table>
             </div>
-            @Html.Partial("Views/Home/_TableUrl.cshtml", @Model.userUrlList) 
+            <div id="tableUrlListDV">
+                @Html.Partial("Views/Home/_TableUrl.cshtml", @Model.userUrlList) 
+            </div>
             <div>
                 <table class="col-lg-12">
                     <tr>
@@ -97,8 +99,7 @@
             $(this).addClass('active').siblings().removeClass('active');
             $('#mytable').find('.glyphicon').hide();
             $(this).find('.glyphicon').show();            
-            $.get("/test", function (data) {
-                debugger;
+            $.get("/test", function (data) {               
                 $("#shortedUrlDV").html(data);
                 copyLink();
             });
@@ -112,6 +113,9 @@
             $('.timeList').css('color', '');
             $(elem).css('font-weight', 'bold');
             $(elem).css('color', 'black');
+            $.get("/table/" + time, function (data) {
+                $("#tableUrlListDV").html(data);
+            });
 
         }
 

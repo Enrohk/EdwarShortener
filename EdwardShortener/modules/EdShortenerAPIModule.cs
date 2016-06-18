@@ -1,4 +1,5 @@
-﻿using EdwardShortener.Objects;
+﻿using EdwardShortener.Functions;
+using EdwardShortener.Objects;
 using Nancy;
 using Nancy.ModelBinding;
 using System;
@@ -16,19 +17,14 @@ namespace EdwardShortener.modules
             Get["/"] = parameters =>
             {
                 User u = new User();
-                UserUrlList list = new UserUrlList();
-                list.urlLists = new List<UrlObject>();
-                UrlObject o;
-                for (int i = 0; i<10; i++)
-                {
-                    o = new UrlObject();
-                    o.id = i;
-                    o.shotUrl = "short " + i;
-                    o.longUrl = "long" + i;
-                    list.urlLists.Add(o);
-                }
-                u.userUrlList = list;
+                u.userUrlList = TableFunctions.getUserList("all");
                 return View["Index",u];
+            };
+
+            Get["/table/{date}"] = parameters =>
+            {
+                UserUrlList list = TableFunctions.getUserList(parameters.date);
+                return View["_TableUrl", list];
             };
            
             Get["/test"] = parameters =>

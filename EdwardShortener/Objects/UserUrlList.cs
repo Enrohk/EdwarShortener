@@ -7,7 +7,7 @@ namespace EdwardShortener.Objects
 {
     public class UserUrlList
     {
-        public List<UrlObject> urlLists { get; set; }
+        public List<TableShortedUrl> urlLists { get; set; }
 
         public UserUrlList ()
         {
