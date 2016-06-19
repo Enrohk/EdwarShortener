@@ -8,6 +8,7 @@ namespace EdwardShortener.Objects
     public class User
     {
         public UserUrlList userUrlList { get; set; }
+        
 
         public User ()
         {

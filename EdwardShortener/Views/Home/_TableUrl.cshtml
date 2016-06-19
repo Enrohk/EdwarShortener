@@ -22,7 +22,7 @@
                         <td><input type="checkbox"></td>
                         <td colspan="2"><a href="@urlObject.longUrl">@urlObject.longUrl</a></td>
                         <td>@urlObject.created.ToShortDateString()</td>
-                        <td><a href="@urlObject.shortUrl">@urlObject.shortUrl</a></td>
+                        <td><a href="/@urlObject.shortedUrl">@urlObject.shortedUrl</a></td>
                         <td><a href="#">Details</a></td>
                         <td><p class="text-center">@urlObject.clicks</p>
                             <input id="idHidden" type="hidden" value="@urlObject.id" /></td>
@@ -32,9 +32,11 @@
             </tbody>
         </table>
     </div>
-    
+
 
     <script type="text/javascript">
+
+        var current = 0;
 
         $("#allChecks").change(function () {
             $("input:checkbox").prop('checked', $(this).prop("checked"));
@@ -73,5 +75,18 @@
             $("[data-toggle='tooltip']").tooltip('show');
         }
 
+        function addCurrent ()
+        {
+           
+            alert(current);
+            current ++ ;
+           
+        }
+
+        function subsCurrent ()
+        {
+            alert(current);
+            current--;
+        }
     </script>
 }

@@ -120,7 +120,16 @@
   <data name="SQL_Function_GerUrlObjectById" xml:space="preserve">
     <value>SELECT * FROM [dbo].[SQL_Function_GerUrlObjectById] (@QueryId)</value>
   </data>
+  <data name="SQL_Function_GerUrlObjectByShorted" xml:space="preserve">
+    <value>SELECT * FROM [dbo].[SQL_Function_GerUrlObjectByShorted] (@QueryShorted)</value>
+  </data>
   <data name="SQL_Function_GetTableUrlList" xml:space="preserve">
     <value>SELECT * FROM [dbo].[SQL_Function_ShortedURIListByTime] (@QueryTime)</value>
+  </data>
+  <data name="SQL_INSERT_CLICK" xml:space="preserve">
+    <value>INSERT Clicks(Fk_idShortedUrl) values (@Fk_idShortedUrl)</value>
+  </data>
+  <data name="SQL_INSERT_SHORTED_URL" xml:space="preserve">
+    <value>INSERT ShortedUrl(shortedUrl, longUrl) values (@shortedUrl, @longUrl)</value>
   </data>
 </root>

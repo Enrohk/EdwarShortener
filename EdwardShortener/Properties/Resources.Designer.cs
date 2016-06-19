@@ -70,11 +70,38 @@ namespace EdwardShortener.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM [dbo].[SQL_Function_GerUrlObjectByShorted] (@QueryShorted).
+        /// </summary>
+        public static string SQL_Function_GerUrlObjectByShorted {
+            get {
+                return ResourceManager.GetString("SQL_Function_GerUrlObjectByShorted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM [dbo].[SQL_Function_ShortedURIListByTime] (@QueryTime).
         /// </summary>
         public static string SQL_Function_GetTableUrlList {
             get {
                 return ResourceManager.GetString("SQL_Function_GetTableUrlList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT Clicks(Fk_idShortedUrl) values (@Fk_idShortedUrl).
+        /// </summary>
+        public static string SQL_INSERT_CLICK {
+            get {
+                return ResourceManager.GetString("SQL_INSERT_CLICK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT ShortedUrl(shortedUrl, longUrl) values (@shortedUrl, @longUrl).
+        /// </summary>
+        public static string SQL_INSERT_SHORTED_URL {
+            get {
+                return ResourceManager.GetString("SQL_INSERT_SHORTED_URL", resourceCulture);
             }
         }
     }

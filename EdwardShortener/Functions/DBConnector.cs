@@ -25,9 +25,21 @@ namespace EdwardShortener.Functions
                 connection.Open();
                 IEnumerable<T> result = connection.Query<T>(query, param);
                 list = result.ToList();
-
+                connection.Close();
             }
+            
             return list;
+        }
+        
+        public int addItemToDb (string query, object param)
+        {
+            using (DbConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                int rowsAfected = connection.Execute(query, param);
+                connection.Close();
+                return rowsAfected;
+            }            
         } 
 
     }

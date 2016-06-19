@@ -7,9 +7,9 @@ namespace EdwardShortener.Objects
 {
     public class UrlObject
     {
-        public int id { get; set; }
+        public int idShortedUrl { get; set; }
         public string longUrl { get; set; }
-        public string shortUrl { get; set; }
+        public string shortedUrl { get; set; }
         public DateTime created { get; set; }
 
         public UrlObject ()

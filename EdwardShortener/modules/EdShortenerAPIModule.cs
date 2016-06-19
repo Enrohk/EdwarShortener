@@ -44,6 +44,26 @@ namespace EdwardShortener.modules
                 }
             };
 
+            Get["/{toShort}"] = parameters =>
+            {
+                string toShort = parameters.toShort;
+                ShortFunctions shortFunction = new ShortFunctions();
+                UrlObject urlObject = shortFunction.getUrlObjectIdByShorted(toShort);
+
+                if(urlObject!= null)
+                {                   
+                    shortFunction.insertNewClick(urlObject.idShortedUrl);
+
+                    return Response.AsRedirect(urlObject.longUrl);
+                }
+                else
+                {
+
+                    return "not shorted ";
+                }
+
+            };
+
         }
 
     }
