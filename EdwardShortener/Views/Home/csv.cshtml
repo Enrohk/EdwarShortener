@@ -1,0 +1,61 @@
+﻿@{
+    Layout = "Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<head>
+
+</head>
+<body>
+
+    <div class="container">
+        <h1>CSV EdwarShortener</h1>
+        <div id="actions">
+            <a id="uploadFromFrom" href="#"> Short From Form </a>
+            <a id="uploadFromFile" href="#"> Upload CSV File </a>
+        </div>
+        <br>
+        <div id="uploadFromFileDv" class="input-group">
+            <input type="text" class="form-control" placeholder="Search your csv file">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Upload file</button>
+            </span>
+        </div>
+        <div id=uploadFromFormDV>
+            <h4>
+                Enter your urls to short<h4>
+                    <div id="urlToshort">
+                        <input type="text" class="form-control" placeholder="Enter UrlToShort">
+                    </div>
+                    <br>
+                    <button class="btn btn-default" type="button">Short 'em all</button>
+        </div>
+
+        <script>
+
+            $("#uploadFromFile").hide();
+            $("#uploadFromFormDV").hide();
+
+            $("#uploadFromFrom").on('click', function () {
+                $("#uploadFromFile").show();
+                $("#uploadFromFormDV").show();
+                $("#uploadFromFrom").hide();
+                $("#uploadFromFileDv").hide();
+
+            });
+
+            $("#uploadFromFile").on('click', function () {
+                $("#uploadFromFile").hide();
+                $("#uploadFromFormDV").hide();
+                $("#uploadFromFrom").show();
+                $("#uploadFromFileDv").show();
+            });
+
+            $("#urlToshort").on('change', function () {
+                $("#urlToshort").append(' <input type="text" class="form-control" placeholder="Enter UrlToShort"> ');
+            });
+
+        </script>
+
+</body>
+</html>

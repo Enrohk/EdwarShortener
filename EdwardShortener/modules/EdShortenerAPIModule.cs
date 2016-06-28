@@ -21,6 +21,26 @@ namespace EdwardShortener.modules
                 return View["Index",u];
             };
 
+            Get["/csv"] = parameters =>
+            {               
+                return View["csv"];
+            };
+
+            Get["/login"] = parameters =>
+            {
+                return View["login"];
+            };
+
+            Get["/register"] = parameters =>
+            {
+                return View["register"];
+            };
+
+            Get["/details/{url}"] = parameters =>
+            {
+                return View["register"];
+            };
+
             Get["/table/{date}"] = parameters =>
             {
                 UserUrlList list = TableFunctions.getUserList(parameters.date);

@@ -1,4 +1,4 @@
-﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<EdwardShortener.Objects.User>
 
 <!DOCTYPE html>
 
@@ -7,13 +7,54 @@
     <title>@ViewBag.Title</title>
     <meta name="viewport" content="width=device-width" />
     <script src="~/Content/Scripts/jquery-2.2.3.min.js"></script>
-    <script src="~/Content/Scripts/bootstrap.min.js"></script>     
+    <script src="~/Content/Scripts/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="/Content/bootstrap-theme.min.css" />
 </head>
 <body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Edward Shortener</a>
+
+            </div>
+            <ul class="nav navbar-nav">
+                <li id="csvNavli"><a href="/csv">CSV Shortener</a></li>
+                <li> </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                @if (Model == null)
+                {
+                    <li id="signUpNavli"><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li id="logInNavli"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
+                }
+                else
+                {
+                    <li id="logInNavli"><a href="/profile"><span class="glyphicon glyphicon-log-in"></span> Profile</a></li>
+                    <li id="signUpNavli"><a href="/logout"><span class="glyphicon glyphicon-user"></span> Log out</a></li>
+                }
+            </ul>
+        </div>
+    </nav>
     <div>
         @RenderBody()
     </div>
+
+    <script type="text/javascript">
+
+        $(".navbar-brand").on("click", function () {
+            $(".nav").find(".active").removeClass("active");
+            $("#logIn").show();
+        });
+
+
+
+        $(".nav a").on("click", function () {
+            $(".nav").find(".active").removeClass("active");
+            $(this).parent().addClass("active");
+            $("#logIn").hide();
+        });
+
+    </script>
 </body>
 </html>

@@ -22,7 +22,7 @@ namespace EdwardShortener.Tests
             {
                 string query = "SELECT * FROM [dbo].[SQL_Function_ShortedURIListByTime] ()";
                 IEnumerable<UrlObject> v_result = myConnection.Query<UrlObject>(query);
-                Assert.IsTrue(v_result.ToList().Count > 0);\
+                Assert.IsTrue(v_result.ToList().Count > 0);
                 myConnection.Close();
             }
         }
