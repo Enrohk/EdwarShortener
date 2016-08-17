@@ -23,10 +23,11 @@ namespace EdwardShortener.Functions
             {
                 urlObject = listResult.First();
             }
-            
+           
             return urlObject;
         }
-                public int insertNewClick (int shortedUrlId)
+
+        public int insertNewClick (int shortedUrlId)
         {
             string query = Properties.Resources.SQL_INSERT_CLICK;
             var param = new { Fk_idShortedUrl = shortedUrlId };

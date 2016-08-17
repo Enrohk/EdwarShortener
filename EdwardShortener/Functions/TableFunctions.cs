@@ -9,16 +9,21 @@ namespace EdwardShortener.Functions
     public class TableFunctions
     {
 
+        private static edShortenerModel _db;
+
+        public static edShortenerModel getDB()
+        {
+            if(_db == null)
+            {
+                _db = new edShortenerModel();
+            }
+            return _db;
+        }
+
         public static UserUrlList getUserList(string fromDate )
         {
             UserUrlList userUrlList = new UserUrlList();
             userUrlList.urlLists = new List<TableShortedUrl>();
-            //DBConnector connector = new DBConnector();
-            //DateTime d = DateTime.Now;
-            //DateTime newDate = getDate(fromDate);
-            //var param = new { QueryTime = newDate };
-            //string query = Properties.Resources.SQL_Function_GetTableUrlList;
-            //userUrlList.urlLists = connector.getListItem<TableShortedUrl>(query, param);
 
             using (var db = new edShortenerModel())
             {
@@ -40,6 +45,27 @@ namespace EdwardShortener.Functions
             }
 
             return userUrlList;
+        }
+
+        public static UrlObject getUrlTableDetails (int id)
+        {
+            UrlObject urlTable = new UrlObject();
+
+            using (var db = new edShortenerModel())
+            {
+                var queryResult = from url in db.ShortedUrls
+                                  where url.idShortedUrl == id
+                                  select url;
+
+                var urlResult = queryResult.FirstOrDefault();
+
+                urlTable.idShortedUrl = urlResult.idShortedUrl;
+                urlTable.longUrl = urlResult.longUrl;
+                urlTable.shortedUrl = urlResult.shortedUrl1;
+                urlTable.created = urlResult.created;
+            }
+
+            return urlTable;
         }
 
         private static DateTime getDate (string fromDate)

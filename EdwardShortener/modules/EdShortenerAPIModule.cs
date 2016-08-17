@@ -29,7 +29,7 @@ namespace EdwardShortener.modules
 
                 return data;
             };
-
+            
             Get["/"] = parameters =>
             {
                 User u = new User();
@@ -37,10 +37,33 @@ namespace EdwardShortener.modules
                 return View["Index",u];
             };
 
-            Get["/csv"] = parameters =>
-            {               
-                return View["csv"];
+            #region table index
+
+            Get["/table/{date}"] = parameters =>
+            {
+                UserUrlList list = TableFunctions.getUserList(parameters.date);
+                return View["_TableUrl", list];
             };
+
+
+            Get["/tableDetails/{urlObjectId}"] = parameters =>
+            {
+
+                UrlObject urlObj = TableFunctions.getUrlTableDetails(id);
+
+                if (urlObj != null)
+                {
+                    return View["_ShortedUrlInfo", urlObj];
+                }
+                else
+                {
+                    return "error";
+                }
+            };
+
+            #endregion
+
+            #region user
 
             Get["/login"] = parameters =>
             {
@@ -52,42 +75,17 @@ namespace EdwardShortener.modules
                 return View["register"];
             };
 
-            Get["/details/{url}"] = parameters =>
-            {
-                return View["register"];
-            };
+            #endregion
 
-            Get["/table/{date}"] = parameters =>
-            {
-                UserUrlList list = TableFunctions.getUserList(parameters.date);
-                return View["_TableUrl", list];
-            };
-
-            Get["/tableDetails/{urlObjectId}"] = parameters =>
-            {
-                DBConnector connector = new DBConnector();
-                string query = Properties.Resources.SQL_Function_GerUrlObjectById;
-                int id = parameters.urlObjectId;
-                var param = new { QueryId = id };
-                List<UrlObject> listObject = connector.getListItem<UrlObject>(query, param);
-                if(listObject.Count == 1)
-                {
-                    return View["_ShortedUrlInfo", listObject.FirstOrDefault()];
-                }
-                else
-                {
-                    return "error";
-                }
-            };
-
+            #region short
             Get["/{toShort}"] = parameters =>
             {
                 string toShort = parameters.toShort;
                 ShortFunctions shortFunction = new ShortFunctions();
                 UrlObject urlObject = shortFunction.getUrlObjectIdByShorted(toShort);
 
-                if(urlObject!= null)
-                {                   
+                if (urlObject != null)
+                {
                     shortFunction.insertNewClick(urlObject.idShortedUrl);
 
                     return Response.AsRedirect(urlObject.longUrl);
@@ -98,6 +96,19 @@ namespace EdwardShortener.modules
                     return "not shorted ";
                 }
 
+            };
+            #endregion
+
+            Get["/csv"] = parameters =>
+            {               
+                return View["csv"];
+            };
+
+            
+
+            Get["/details/{url}"] = parameters =>
+            {
+                return View["register"];
             };
 
         }
