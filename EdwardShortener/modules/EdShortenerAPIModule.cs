@@ -14,6 +14,22 @@ namespace EdwardShortener.modules
 
         public HomeModule()
         {
+            Get["test"] = parameters =>
+            {
+                string data = string.Empty;
+                using (var db = new edShortenerModel())
+                {
+                    var query = from s in db.ShortedUrls
+                                select s;
+                    foreach (var s in query)
+                    {
+                        data += " " + s.longUrl;
+                    }
+                }
+
+                return data;
+            };
+
             Get["/"] = parameters =>
             {
                 User u = new User();
