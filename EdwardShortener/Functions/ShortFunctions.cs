@@ -8,33 +8,100 @@ namespace EdwardShortener.Functions
 {
     public class ShortFunctions
     {
-
-        public UrlObject getUrlObjectIdByShorted (string shortedUrl)
+        #region sql
+       
+        public static int insertNewClick (int shortedUrlId)
         {
-            UrlObject urlObject = null;
-            DBConnector dbConnector = new DBConnector();
-            var param = new
+            try
             {
-                QueryShorted = shortedUrl
-            };
-            string query = Properties.Resources.SQL_Function_GerUrlObjectByShorted;
-            List<UrlObject> listResult = dbConnector.getListItem<UrlObject>(query, param);
-            if(listResult.Count == 1)
-            {
-                urlObject = listResult.First();
+                using (var db = new edShortenerModel())
+                {
+                    var newClick = new Click();
+                    newClick.Fk_idShortedUrl = shortedUrlId;
+                    newClick.created = DateTime.Now;
+                    db.Clicks.Add(newClick);                
+                    return db.SaveChanges();
+                }
             }
-           
-            return urlObject;
+            catch (Exception e)
+            {
+                return 0;
+            }
         }
 
-        public int insertNewClick (int shortedUrlId)
+
+        public static UrlObject getUrlObjectIdByShorted(string shortedUrl)
         {
-            string query = Properties.Resources.SQL_INSERT_CLICK;
-            var param = new { Fk_idShortedUrl = shortedUrlId };
-            DBConnector connector = new DBConnector();
-            return connector.addItemToDb(query, param);
+            UrlObject urlItem = new UrlObject();
+
+            using (var db = new edShortenerModel())
+            {
+                var queryResult = from url in db.ShortedUrls
+                                  where url.shortedUrl1 == shortedUrl
+                                  select url;
+
+                var urlResult = queryResult.FirstOrDefault();
+
+                urlItem.idShortedUrl = urlResult.idShortedUrl;
+                urlItem.longUrl = urlResult.longUrl;
+                urlItem.shortedUrl = urlResult.shortedUrl1;
+                urlItem.created = urlResult.created;                
+            }
+
+            return urlItem;
         }
-           
+
+        public static bool urlAlreadyShorted (string longUrl)
+        {            
+            using (var db = new edShortenerModel())
+            {
+                var queryResult = from url in db.ShortedUrls
+                                  where url.longUrl == longUrl
+                                  select url;
+
+                var urlResult = queryResult.FirstOrDefault();
+
+                return urlResult != null;
+                               
+            }            
+        }
+
+        public static int addNewUrl (string longUrl)
+        {
+            try
+            {
+                string s = string.Empty;
+                using (var db = new edShortenerModel())
+                {
+                    var newUrl = new ShortedUrl();
+                    newUrl.created = DateTime.Now;
+                    newUrl.longUrl = longUrl;
+                    newUrl.shortedUrl1 = "asafadsfa";
+                    db.ShortedUrls.Add(newUrl);
+                    
+                    return db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+            
+        }
+    
+
+        #endregion
+
+        #region functions
+
+        public static string shortUrl (string longUrl)
+        {
+            string shortUrl = string.Empty;
+
+            return shortUrl;
+        }
+
+        #endregion
 
     }
 }

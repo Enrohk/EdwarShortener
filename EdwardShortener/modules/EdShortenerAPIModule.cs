@@ -1,7 +1,9 @@
 ﻿using EdwardShortener.Functions;
 using EdwardShortener.Objects;
 using Nancy;
+using Nancy.Testing;
 using Nancy.ModelBinding;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,18 +18,10 @@ namespace EdwardShortener.modules
         {
             Get["test"] = parameters =>
             {
-                string data = string.Empty;
-                using (var db = new edShortenerModel())
-                {
-                    var query = from s in db.ShortedUrls
-                                select s;
-                    foreach (var s in query)
-                    {
-                        data += " " + s.longUrl;
-                    }
-                }
-
-                return data;
+                //HttpBrowserCapabilities browser = Request.Browser;
+                string s = Request.UserHostAddress;
+                
+                return s;
             };
             
             Get["/"] = parameters =>
@@ -48,8 +42,8 @@ namespace EdwardShortener.modules
 
             Get["/tableDetails/{urlObjectId}"] = parameters =>
             {
-
-                UrlObject urlObj = TableFunctions.getUrlTableDetails(id);
+                int urlObjId = parameters.urlObjectId;
+                UrlObject urlObj = TableFunctions.getUrlTableDetails(urlObjId);
 
                 if (urlObj != null)
                 {
@@ -80,15 +74,18 @@ namespace EdwardShortener.modules
             #region short
             Get["/{toShort}"] = parameters =>
             {
-                string toShort = parameters.toShort;
-                ShortFunctions shortFunction = new ShortFunctions();
-                UrlObject urlObject = shortFunction.getUrlObjectIdByShorted(toShort);
+                string toShort = parameters.toShort;                
+                UrlObject urlObject = ShortFunctions.getUrlObjectIdByShorted(toShort);
 
-                if (urlObject != null)
+                if (urlObject != null && !string.IsNullOrEmpty(urlObject.shortedUrl))
                 {
-                    shortFunction.insertNewClick(urlObject.idShortedUrl);
 
-                    return Response.AsRedirect(urlObject.longUrl);
+                    if (ShortFunctions.insertNewClick(urlObject.idShortedUrl) > 0 )
+                    {
+                        return Response.AsRedirect(urlObject.longUrl);
+                    }
+                    return "error";
+
                 }
                 else
                 {
@@ -96,6 +93,18 @@ namespace EdwardShortener.modules
                     return "not shorted ";
                 }
 
+            };
+
+
+            Post["/addUrl"] = parameters =>
+            {
+                string urlToAdd = Request.Form["urlToShort"];
+                if(!ShortFunctions.urlAlreadyShorted(urlToAdd))
+                {
+                    int result = ShortFunctions.addNewUrl(urlToAdd);
+
+                }
+                return 0;
             };
             #endregion
 

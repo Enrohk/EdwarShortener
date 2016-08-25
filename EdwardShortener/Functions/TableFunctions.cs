@@ -7,18 +7,7 @@ using System.Web;
 namespace EdwardShortener.Functions
 {
     public class TableFunctions
-    {
-
-        private static edShortenerModel _db;
-
-        public static edShortenerModel getDB()
-        {
-            if(_db == null)
-            {
-                _db = new edShortenerModel();
-            }
-            return _db;
-        }
+    {        
 
         public static UserUrlList getUserList(string fromDate )
         {
