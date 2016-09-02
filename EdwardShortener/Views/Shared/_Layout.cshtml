@@ -1,10 +1,7 @@
-﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<EdwardShortener.Objects.User>
-
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
 <!DOCTYPE html>
-
 <html>
-<head>
-    <title>@ViewBag.Title</title>
+<head>   
     <meta name="viewport" content="width=device-width" />
     <script src="~/Content/Scripts/jquery-2.2.3.min.js"></script>
     <script src="~/Content/Scripts/bootstrap.min.js"></script>
@@ -23,7 +20,7 @@
                 <li> </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                @if (Model == null)
+                @if (Context.CurrentUser == null || Context.CurrentUser.UserName == "dummyDefault")                
                 {
                     <li id="signUpNavli"><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                     <li id="logInNavli"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>

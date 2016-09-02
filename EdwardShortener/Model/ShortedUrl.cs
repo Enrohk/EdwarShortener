@@ -1,4 +1,4 @@
-namespace EdwardShortener
+namespace EdwardShortener.Model
 {
     using System;
     using System.Collections.Generic;
@@ -25,7 +25,15 @@ namespace EdwardShortener
 
         public DateTime created { get; set; }
 
+        public int? pageStatus { get; set; }
+
+        public DateTime? lastStatusChange { get; set; }
+
+        public Guid Fk_idUsers { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Click> Clicks { get; set; }
+
+        public virtual User User { get; set; }
     }
 }

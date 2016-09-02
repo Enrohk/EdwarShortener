@@ -11,7 +11,27 @@
 </head>
 <body>
     <div>
-    
+        <form class="form-signin" action="/register" method="post">
+            <h2 class="form-signin-heading">Please log in</h2>
+            <label for="inputEmail" class="sr-only">User name</label>
+            <input type="input" id="input" name="userName" class="form-control" placeholder="User name" required="" autofocus="">
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPassword" name="userPass" class="form-control" placeholder="Password" required="">
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPassword2" name="userPass2" class="form-control" placeholder="Password" required="">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="rememberMe"> Remember me
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        </form>
+        <div>
+            @if (Model.Errored)
+            {
+                <div id="errorBox" class="floatingError">Invalid Username or Password</div>
+            }
+        </div>
     </div>
 </body>
 </html>

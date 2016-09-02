@@ -11,7 +11,8 @@ namespace EdwardShortener.Objects
         public string longUrl { get; set; }
         public string shortedUrl { get; set; }
         public DateTime created { get; set; }
-
+        public DateTime? lastStatusCHanged { get; set; }
+        public int? status { get; set; }
         public UrlObject ()
         {
                

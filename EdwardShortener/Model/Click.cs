@@ -1,4 +1,4 @@
-namespace EdwardShortener
+namespace EdwardShortener.Model
 {
     using System;
     using System.Collections.Generic;

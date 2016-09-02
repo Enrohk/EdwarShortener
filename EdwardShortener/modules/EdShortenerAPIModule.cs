@@ -8,6 +8,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.IO;
+using EdwardShortener.Model;
+using Nancy.Security;
+using Nancy.Extensions;
+using System.Dynamic;
+using Nancy.Authentication.Forms;
+using Newtonsoft.Json.Linq;
 
 namespace EdwardShortener.modules
 {
@@ -16,27 +23,52 @@ namespace EdwardShortener.modules
 
         public HomeModule()
         {
-            Get["test"] = parameters =>
+            this.RequiresAuthentication();  
+            Get["test2"] = parameters =>
             {
-                //HttpBrowserCapabilities browser = Request.Browser;
-                string s = Request.UserHostAddress;
+                try
+                {
+                    this.RequiresClaims(new[] { "Admin" });
+                    
+                    string s = "a";
                 
-                return s;
+
+                    return s;
+
+                }
+                catch (Exception e)
+                {
+                    return e.Message;
+                }
             };
-            
+
             Get["/"] = parameters =>
             {
-                User u = new User();
-                u.userUrlList = TableFunctions.getUserList("all");
-                return View["Index",u];
+                
+                var currentUser = Context.CurrentUser.UserName;
+                var guid = UserFunctions.getGuidByName("aa");
+                if (guid != null)
+                {
+                    Objects.User u = new Objects.User();
+                    u.userUrlList = TableFunctions.getUserList("all", guid);                    
+                    return View["Index", u];
+                }
+                else return "error";
+
             };
 
             #region table index
 
             Get["/table/{date}"] = parameters =>
             {
-                UserUrlList list = TableFunctions.getUserList(parameters.date);
-                return View["_TableUrl", list];
+                var currentUser = Context.CurrentUser.UserName;
+                var guid = UserFunctions.getGuidByName(currentUser);
+                if (guid != null)
+                {
+                    UserUrlList list = TableFunctions.getUserList(parameters.date, guid);
+                    return View["_TableUrl", list];
+                }
+                else return "error";
             };
 
 
@@ -59,61 +91,232 @@ namespace EdwardShortener.modules
 
             #region user
 
-            Get["/login"] = parameters =>
+            #region logIN
+            Get["/login"] = parameter =>
             {
-                return View["login"];
+                dynamic model = new ExpandoObject();
+                model.Errored = Request.Query.error.HasValue;
+                return View["logIn",model];
             };
 
-            Get["/register"] = parameters =>
+            Post["/login"] = parameter =>
             {
-                return View["register"];
+                
+                string name = Request.Form["userName"];
+                string pass = Request.Form["userPass"];
+                string remember = Request.Form["rememberMe"];
+
+                Objects.User user = UserFunctions.logInUser(name, pass);
+
+                if(user != null)
+                {
+                    DateTime? expiry = null;
+                    if (!string.IsNullOrEmpty(remember))
+                    {
+                        expiry = DateTime.Now.AddDays(7);
+                    }
+                    
+                    return this.LoginAndRedirect(user.id, expiry);
+                }
+                else
+                {
+                    return Context.GetRedirect("~/login?error=true&username=" + (string)Request.Form.Username);
+                }
+            };
+
+            Get["/logout"] = parameter =>
+            {
+                return this.LoginAndRedirect(UserFunctions.getDummyCurrentUser().guid);                
             };
 
             #endregion
 
+            #region register
+
+            Get["/register"] = parameter =>
+            {
+                dynamic model = new ExpandoObject();
+                model.Errored = Request.Query.error.HasValue;
+                return View["register", model];
+            };
+
+            Post["/register"] = parameter =>
+            {
+                string name = Request.Form["userName"];
+                string pass = Request.Form["userPass"];
+                string pass2 = Request.Form["userPass"];
+                string remember = Request.Form["rememberMe"];
+
+                Objects.User user = UserFunctions.registerUser(name, pass,pass2);
+
+                if (user != null)
+                {
+                    DateTime? expiry = null;
+                    if (!string.IsNullOrEmpty(remember))
+                    {
+                        expiry = DateTime.Now.AddDays(7);
+                    }
+
+                    return this.LoginAndRedirect(user.id, expiry);
+                }
+                else
+                {
+                    return Context.GetRedirect("~/register?error=true&username=" + (string)Request.Form.Username);
+                }
+
+            };
+
+            #endregion
+
+            #region profile
+
+            Get["profile"] = parameters =>
+            {
+                var currentUser = Context.CurrentUser.UserName;
+                var guid = UserFunctions.getGuidByName(currentUser);
+                if (guid != null)
+                {
+                    Objects.User u = UserFunctions.getFullUserByGuid(guid);
+                    u.userUrlList = TableFunctions.getUserList("all", guid);
+                    return View["profile", u];
+                }
+                else return "error";
+            };
+
+            Post["/profile"] = parameter =>
+            {
+                Objects.User user = this.Bind();
+                var changePass = Request.Form["changePass"];
+                var currentUser = Context.CurrentUser.UserName;
+                var guid = UserFunctions.getGuidByName(currentUser);
+                user.id = guid;
+                user.name = currentUser;
+
+                if (changePass == "1")
+                {
+                    if(!string.IsNullOrEmpty(user.newPass1) && user.newPass1 == user.newPass2)
+                    {                       
+                        if(UserFunctions.verifyOldPass(user))
+                        {
+                            if(UserFunctions.updateProfile(user, true)>0)
+                            {
+                                return View["profile", user];
+                            }
+                            else
+                            {
+                                user.error = "Error Ocurred while updating profile";
+                                return View["profile", user];
+                            }
+                        }
+                        else
+                        {
+                            user.error = "Old password was incorrect";
+                            return View["profile", user];
+                        }
+
+                        
+                    }
+                    else
+                    {
+                        user.error = "Password does not match";
+                        return View["profile", user];
+                    }
+                }
+                else
+                {
+                    if (UserFunctions.updateProfile(user, false) > 0)
+                    {
+                        return View["profile", user];
+                    }
+                    else
+                    {
+                        user.error = "Error Ocurred while updating profile";
+                        return View["profile", user];
+                    }
+                }
+
+            };
+
+            #endregion
+            #endregion
+
             #region short
-            Get["/{toShort}"] = parameters =>
+            Get["/goTo/{toShort}"] = parameters =>
             {
                 string toShort = parameters.toShort;                
                 UrlObject urlObject = ShortFunctions.getUrlObjectIdByShorted(toShort);
 
-                if (urlObject != null && !string.IsNullOrEmpty(urlObject.shortedUrl))
+                if (urlObject != null && urlObject.status.ToString() == "200")
                 {
 
                     if (ShortFunctions.insertNewClick(urlObject.idShortedUrl) > 0 )
                     {
                         return Response.AsRedirect(urlObject.longUrl);
                     }
-                    return "error";
+                    return View["error", new errorObj { errorMsg = "No se ha podido acceder a la url " + urlObject.shortedUrl + "error desconocdio" }];
 
                 }
                 else
-                {
-
-                    return "not shorted ";
+                {              
+                    return View["error", new errorObj { errorMsg = "Url Caida desde " + urlObject.lastStatusCHanged }];
                 }
 
             };
 
 
             Post["/addUrl"] = parameters =>
-            {
+            {                
                 string urlToAdd = Request.Form["urlToShort"];
-                if(!ShortFunctions.urlAlreadyShorted(urlToAdd))
+                var currentUser = Context.CurrentUser.UserName;
+                if (!string.IsNullOrEmpty(currentUser))
                 {
-                    int result = ShortFunctions.addNewUrl(urlToAdd);
+                    var guid = UserFunctions.getGuidByName(currentUser);
+                    ShortedUrl newUrl = ShortFunctions.urlAlreadyShorted(urlToAdd, guid);
+                    if (newUrl == null)
+                    {
+                        int result = ShortFunctions.addNewUrl(urlToAdd, guid);
+                        if(result != 0)
+                        {
+                            return Response.AsRedirect("/");
+                        }
+                        else
+                        {
+                            return View["error", new errorObj { errorMsg = "No se ha podido crear la url " + urlToAdd}];
+                        }
 
+                    }
+
+                    return Response.AsRedirect("/tableDetails/" + newUrl.idShortedUrl);
                 }
-                return 0;
+                return "error";
+               
             };
             #endregion
 
+            #region csv
+
             Get["/csv"] = parameters =>
-            {               
-                return View["csv"];
+            {                
+                return View["csv", null];
             };
 
-            
+            Post["/csv"] = parameters =>
+            {
+                string urlsToAdd = Request.Form["urlList"];
+                string[] urlsArr = urlsToAdd.Split(',');
+                var currentUser = Context.CurrentUser.UserName;
+                var guid = UserFunctions.getGuidByName(currentUser);
+                if (guid != null)
+                {
+                    csvResponse result = ShortFunctions.addArrUrls(urlsArr,guid); 
+                    return View["csv", result];
+                }
+
+                return 0;
+            };
+
+            #endregion
+
 
             Get["/details/{url}"] = parameters =>
             {
@@ -121,6 +324,5 @@ namespace EdwardShortener.modules
             };
 
         }
-
     }
 }

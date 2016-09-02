@@ -19,10 +19,10 @@
                 @foreach (var urlObject in @Model.urlLists)
                 { 
                     <tr>
-                        <td><input type="checkbox"></td>
+                        <td><input type="checkbox"></td>                        
                         <td colspan="2"><a href="@urlObject.longUrl">@urlObject.longUrl</a></td>
                         <td>@urlObject.created.ToShortDateString()</td>
-                        <td><a href="/@urlObject.shortedUrl">@urlObject.shortedUrl</a></td>
+                        <td><a href="/goTo/@urlObject.shortedUrl">@urlObject.shortedUrl</a></td>
                         <td><a href="/details/@urlObject.shortedUrl">Details</a></td>
                         <td><p class="text-center">@urlObject.clicks</p>
                             <input id="idHidden" type="hidden" value="@urlObject.id" /></td>

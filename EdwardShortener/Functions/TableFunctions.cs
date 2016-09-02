@@ -1,4 +1,5 @@
-﻿using EdwardShortener.Objects;
+﻿using EdwardShortener.Model;
+using EdwardShortener.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,16 @@ namespace EdwardShortener.Functions
     public class TableFunctions
     {        
 
-        public static UserUrlList getUserList(string fromDate )
+        public static UserUrlList getUserList(string fromDate, Guid guid )
         {
             UserUrlList userUrlList = new UserUrlList();
             userUrlList.urlLists = new List<TableShortedUrl>();
 
             using (var db = new edShortenerModel())
             {
+
                 var queryResult = from url in db.ShortedUrls
+                                  where url.Fk_idUsers == guid
                                     select url;
 
                 queryResult.ToList().ForEach(shortedURl =>
@@ -27,6 +30,8 @@ namespace EdwardShortener.Functions
                         created = shortedURl.created,
                         longUrl = shortedURl.longUrl,
                         shortedUrl = shortedURl.shortedUrl1,
+                        pageStatus = shortedURl.pageStatus,
+                        lastStatusChange = shortedURl.lastStatusChange,
                         clicks = shortedURl.Clicks.Where(click => click.created >= getDate(fromDate)).Count()
                     }
                     );

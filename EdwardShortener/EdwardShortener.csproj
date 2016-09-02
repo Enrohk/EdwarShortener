@@ -105,6 +105,14 @@
       <HintPath>..\packages\Nancy.1.4.3\lib\net40\Nancy.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Nancy.Authentication.Basic, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.Authentication.Basic.1.4.1\lib\net40\Nancy.Authentication.Basic.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nancy.Authentication.Forms, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.Authentication.Forms.1.4.1\lib\net40\Nancy.Authentication.Forms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Nancy.Hosting.Aspnet, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nancy.Hosting.Aspnet.1.4.1\lib\net40\Nancy.Hosting.Aspnet.dll</HintPath>
       <Private>True</Private>
@@ -119,6 +127,10 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RijndaelEncryptDecrypt, Version=1.0.0.24384, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RijndaelEncryptDecrypt.1.0.0.24384\lib\net40\RijndaelEncryptDecrypt.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
@@ -192,6 +204,9 @@
     <Content Include="Views\Home\logIn.cshtml" />
     <Content Include="Views\Home\register.cshtml" />
     <Content Include="Views\Home\details.cshtml" />
+    <Content Include="Views\Home\notFound.cshtml" />
+    <Content Include="Views\Home\error.cshtml" />
+    <Content Include="Views\Home\profile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -226,12 +241,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BootstrapBundleConfig.cs" />
+    <Compile Include="FormsAuthBootstrapper.cs" />
+    <Compile Include="Functions\cryptDecrypt.cs" />
+    <Compile Include="Functions\UserFunctions.cs" />
     <Compile Include="Model\Click.cs" />
     <Compile Include="Functions\ShortFunctions.cs" />
     <Compile Include="Functions\TableFunctions.cs" />
     <Compile Include="Model\edShortenerModel.cs" />
+    <Compile Include="Model\sysdiagram.cs" />
+    <Compile Include="Model\User.cs" />
     <Compile Include="modules\EdShortenerAPIModule.cs" />
     <Compile Include="Objects\Click.cs" />
+    <Compile Include="Objects\csvResponse.cs" />
+    <Compile Include="Objects\errorObj.cs" />
     <Compile Include="Objects\TableShortedUrl.cs" />
     <Compile Include="Objects\User.cs" />
     <Compile Include="Objects\UserUrlList.cs" />
@@ -249,7 +271,6 @@
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Model\ShortedUrl.cs" />
-    <Compile Include="sysdiagram.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

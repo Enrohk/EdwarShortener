@@ -12,7 +12,8 @@ namespace EdwardShortener.Objects
         public string shortedUrl { get; set; }
         public DateTime created { get; set; }
         public int clicks { get; set; }
-
+        public int? pageStatus { get; set; }
+        public DateTime? lastStatusChange { get; set; }
         public TableShortedUrl ()
         {
 

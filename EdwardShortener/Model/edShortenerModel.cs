@@ -1,4 +1,4 @@
-namespace EdwardShortener
+namespace EdwardShortener.Model
 {
     using System;
     using System.Data.Entity;
@@ -15,6 +15,7 @@ namespace EdwardShortener
         public virtual DbSet<Click> Clicks { get; set; }
         public virtual DbSet<ShortedUrl> ShortedUrls { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -22,6 +23,12 @@ namespace EdwardShortener
                 .HasMany(e => e.Clicks)
                 .WithRequired(e => e.ShortedUrl)
                 .HasForeignKey(e => e.Fk_idShortedUrl)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.ShortedUrls)
+                .WithRequired(e => e.User)
+                .HasForeignKey(e => e.Fk_idUsers)
                 .WillCascadeOnDelete(false);
         }
     }

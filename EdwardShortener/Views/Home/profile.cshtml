@@ -1,0 +1,133 @@
+﻿@*http://bootsnipp.com/snippets/featured/simple-user-profile*@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<EdwardShortener.Objects.User>
+@{
+    Layout = "Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    @if (Model != null)
+    {
+        <div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">@Model.name's profile</h3>
+                            </div>
+                            <form class="form-signin" action="/profile" method="post">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-3 col-lg-3 " align="center"> <img alt="" src="@Model.imgScr" class="img-circle img-responsive"> </div>
+                                        <div class=" col-md-9 col-lg-9 ">
+                                            <table class="table table-user-information">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Name:</td>
+                                                        <td><input id="profile-5" name="realName" type="text" value="@Model.realName" readonly></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Date of Birth</td>
+                                                        <td><input id="profile-1" name="dateB" type="text" value="@Model.dateB" readonly></td>
+                                                    </tr>
+                                                    <tr>
+                                                    <tr>
+                                                        <td>Gender</td>
+                                                        <td><input id="profile-2" name="gender" type="text" value="@Model.gender" readonly></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Email</td>
+                                                        <td><input id="profile-3" name="mail" type="text" value="@Model.mail" readonly></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Phone Number</td>
+                                                        <td><input id="profile-4" name="phone" type="text" value="@Model.phone" readonly></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>Image url path</td>
+                                                        <td><input id="profile-6" name="imgScr" type="text" value="@Model.imgScr" readonly></td>
+                                                    </tr>
+
+                                                    <tr id="tr-1">
+                                                        <td><input type="text" id="Cpass-1" name="oldPasss" class="form-control" placeholder="old Pass"></td>
+                                                        <td><label for="inputPassword" class="sr-only">Password</label></td>
+                                                    <tr id="tr-2">
+                                                        <td><input type="text" id="Cpass-2" name="newPass1" class="form-control" placeholder="new Pass"></td>
+                                                        <td><label for="inputPassword" class="sr-only">Password</label></td>
+                                                    </tr>
+                                                    <tr id="tr-3">
+                                                        <td><input type="text" id="Cpass-3" name="newPass2" class="form-control" placeholder="Repeat new Pass"></td>
+                                                        <td><label for="inputPassword" class="sr-only">Password</label></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    <a href="#" id="editP" class="btn btn-primary">Edit Profile</a>
+                                    <a href="#" id="changeP" class="btn btn-primary">Change PassWorrd</a>
+                                    <input type="hidden" name="changePass" id="changePass" value="0" />
+                                    <button id="editBtnForm" class="btn btn-lg btn-primary btn-block" type="submit">Save Changes</button>
+                                </div>
+                                <div>
+                                    @if (!string.IsNullOrEmpty(Model.error))
+                                    {
+                                        <div id="errorBox" class="floatingError">Model.error</div>
+                                    }
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <script type="text/javascript">
+
+        $("*[id*=tr-]").hide();
+        $("#editBtnForm").hide();
+        $("#editP").on('click', function () {
+            $("*[id*=profile-]").removeAttr("readOnly");
+            $("#editP").hide();
+            $("#editBtnForm").show();
+        });
+
+        $("#changeP").on('click', function () {
+
+            var change = $("#changePass").val();
+            changePass(change);
+
+        });
+
+        function changePass(change) {
+            var text = "";
+            if (change == "0") {
+                $("*[id*=tr-]").show();
+                text = "Keep PassWord";
+                $("#changePass").val(1);
+                $("#editBtnForm").show();
+
+            }
+            else {
+                $("*[id*=tr-]").hide();
+                $("#changePass").val(0);
+                text = "Change PassWorrd";
+                $("#editBtnForm").hide();
+                
+            }
+            $("#changeP").text(text);
+        }
+
+
+    </script>
+</body>
+</html>

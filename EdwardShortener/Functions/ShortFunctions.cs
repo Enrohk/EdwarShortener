@@ -1,8 +1,15 @@
-﻿using EdwardShortener.Objects;
+﻿using EdwardShortener.Model;
+using EdwardShortener.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
+using Nancy.Authentication.Forms;
+using Newtonsoft.Json.Linq;
 
 namespace EdwardShortener.Functions
 {
@@ -16,11 +23,12 @@ namespace EdwardShortener.Functions
             {
                 using (var db = new edShortenerModel())
                 {
-                    var newClick = new Click();
+                    var newClick = new Model.Click();
                     newClick.Fk_idShortedUrl = shortedUrlId;
                     newClick.created = DateTime.Now;
                     db.Clicks.Add(newClick);                
                     return db.SaveChanges();
+
                 }
             }
             catch (Exception e)
@@ -45,41 +53,81 @@ namespace EdwardShortener.Functions
                 urlItem.idShortedUrl = urlResult.idShortedUrl;
                 urlItem.longUrl = urlResult.longUrl;
                 urlItem.shortedUrl = urlResult.shortedUrl1;
-                urlItem.created = urlResult.created;                
+                urlItem.created = urlResult.created;
+                urlItem.status = urlResult.pageStatus;
+                urlItem.lastStatusCHanged = urlResult.lastStatusChange;                
             }
 
             return urlItem;
         }
 
-        public static bool urlAlreadyShorted (string longUrl)
+        public static Model.ShortedUrl urlAlreadyShorted (string longUrl, Guid guid)
         {            
             using (var db = new edShortenerModel())
             {
+                
                 var queryResult = from url in db.ShortedUrls
-                                  where url.longUrl == longUrl
+                                  where url.longUrl == longUrl && url.Fk_idUsers == guid
                                   select url;
 
                 var urlResult = queryResult.FirstOrDefault();
 
-                return urlResult != null;
+                return urlResult;
                                
             }            
         }
 
-        public static int addNewUrl (string longUrl)
+        public static csvResponse addArrUrls (string[] arr , Guid guid)
+        {
+            csvResponse obj = new csvResponse();
+            obj.urlList = new List<csvResponseObj>();
+            csvResponseObj response;
+            arr.ToList().ForEach(url =>
+            {
+                int shorted;
+                string txt;
+                if (!string.IsNullOrEmpty(url))
+                {
+                    response = new csvResponseObj();
+                    shorted = addNewUrl(url, guid);
+                    if (shorted > 0)
+                        txt = "Shorted";
+                    else
+                        txt = "Error";
+                    response.status = txt;
+                    response.ulr = url;
+                    obj.urlList.Add(response);
+                }
+            });
+            return obj;
+        }
+
+
+        public static int addNewUrl (string longUrl, Guid guid)
         {
             try
             {
-                string s = string.Empty;
-                using (var db = new edShortenerModel())
-                {
-                    var newUrl = new ShortedUrl();
-                    newUrl.created = DateTime.Now;
-                    newUrl.longUrl = longUrl;
-                    newUrl.shortedUrl1 = "asafadsfa";
-                    db.ShortedUrls.Add(newUrl);
+                if(pingUrl(longUrl) == HttpStatusCode.OK.ToString())
+                {                        
+                    string s = string.Empty;
+                    using (var db = new edShortenerModel())
+                    {
+                        
+                        var newUrl = new ShortedUrl();
+                        newUrl.created = DateTime.Now;
+                        newUrl.longUrl = longUrl;
+                        newUrl.shortedUrl1 = cryptDecrypt.Base64Encode(longUrl);
+                        newUrl.pageStatus = 200;
+                        newUrl.lastStatusChange = DateTime.Now;                        
+                        newUrl.Fk_idUsers = guid;
+                        db.ShortedUrls.Add(newUrl);
                     
-                    return db.SaveChanges();
+                        return db.SaveChanges();
+                    }
+                }
+                else
+                {
+                    return 0;
                 }
             }
             catch (Exception e)
@@ -88,6 +136,8 @@ namespace EdwardShortener.Functions
             }
             
         }
+
+
     
 
         #endregion
@@ -101,7 +151,25 @@ namespace EdwardShortener.Functions
             return shortUrl;
         }
 
-        #endregion
+        public static string pingUrl (string url)
+        {
 
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                request.AllowAutoRedirect = false;
+                request.Method = "HEAD";
+                var response = request.GetResponse();
+                return ((HttpWebResponse)response).StatusCode.ToString();
+                
+            }
+            catch (Exception wex)
+            {
+                return wex.Message.ToString();
+            }
+        }
+
+        #endregion
+       
     }
 }
