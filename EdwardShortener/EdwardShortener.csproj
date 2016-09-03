@@ -247,6 +247,7 @@
     <Compile Include="Model\Click.cs" />
     <Compile Include="Functions\ShortFunctions.cs" />
     <Compile Include="Functions\TableFunctions.cs" />
+    <Compile Include="Model\EdShortenerContextInitializer.cs" />
     <Compile Include="Model\edShortenerModel.cs" />
     <Compile Include="Model\sysdiagram.cs" />
     <Compile Include="Model\User.cs" />

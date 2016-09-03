@@ -2,7 +2,19 @@
 
 namespace EdwardShortener.Model
 {
-    internal class EdShortenerContextInitializer : IDatabaseInitializer<edShortenerModel>
+    internal class EdShortenerContextInitializer : CreateDatabaseIfNotExists<edShortenerModel>
     {
+        protected override void Seed(edShortenerModel context)
+        {
+           
+            context.Users.Add(new User()
+            {
+                idUser = new System.Guid(),
+                userName = "dummyDefault",
+                userPass = "sdfgsdfg"
+            });
+
+            context.SaveChanges();
+        }
     }
 }
