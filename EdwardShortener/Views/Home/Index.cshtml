@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="panel-body">
                             <div class="col-lg-10"> <input name="urlToShort" type="text" class="form-control" /></div>
-                            <div> <input type="submit" value="Shorten URL" class="btn btn-primary"/></div>
+                            <div> <input type="submit" value="Shorten URL" class="btn btn-primary" /></div>
                         </div>
                     </div>
                     <div class="row">
@@ -57,7 +57,7 @@
                 @Html.Partial("Views/Home/_TableUrl.cshtml", @Model.userUrlList)
             </div>
 
-            <table class="col-lg-12">
+            @*<table class="col-lg-12">
                 <tr>
                     <td><button type="button" class="btn btn-default">Hide</button></td>
                     <td> <h6>Hidden URLs remain public, but are removed from your history</h6></td>
@@ -77,7 +77,7 @@
                         </table>
                     </td>
                 </tr>
-            </table>
+            </table>*@
         </div>
 
         <div id="shortedUrlDV" style="float: right;">

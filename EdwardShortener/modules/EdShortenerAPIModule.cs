@@ -23,7 +23,12 @@ namespace EdwardShortener.modules
 
         public HomeModule()
         {
-            this.RequiresAuthentication();  
+            if (Context != null )
+            {
+                this.RequiresAuthentication();  
+            }
+
+           
             Get["test2"] = parameters =>
             {
                 try
@@ -44,9 +49,18 @@ namespace EdwardShortener.modules
 
             Get["/"] = parameters =>
             {
-                
-                var currentUser = Context.CurrentUser.UserName;
-                var guid = UserFunctions.getGuidByName("aa");
+                //var currentUser = "a";
+                //try
+                //{
+                // currentUser = Context.CurrentUser.UserName;
+
+                //}
+                //catch(Exception e)
+                //{
+
+                //}
+                var currentUser = Context.CurrentUser != null ? Context.CurrentUser.UserName : string.Empty;
+                var guid = UserFunctions.getGuidByName(currentUser);
                 if (guid != null)
                 {
                     Objects.User u = new Objects.User();

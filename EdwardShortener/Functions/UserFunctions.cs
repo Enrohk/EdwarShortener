@@ -131,7 +131,7 @@ namespace EdwardShortener.Functions
                     var original = db.Users.Find(user.id);
                     original.dateB = user.dateB;
                     original.gender = user.gender;
-                    original.imgScr = cryptDecrypt.cryptPass(user.imgScr); 
+                    original.imgScr = user.imgScr == null ? null : cryptDecrypt.cryptPass(user.imgScr); 
                     original.mail = user.mail;
                     original.phone = user.phone;
                     original.realName = user.realName;

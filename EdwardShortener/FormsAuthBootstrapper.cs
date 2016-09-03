@@ -49,11 +49,11 @@ namespace EdwardShortener
             //
             // The pipelines passed in here are specific to this request,
             // so we can add/remove/update items in them as we please.
-
+            
             var formsAuthConfiguration =
                 new FormsAuthenticationConfiguration
                 {
-                    RedirectUrl = "~/login",
+                    RedirectUrl = "/",
                     UserMapper = requestContainer.Resolve<IUserMapper>(),
                     CryptographyConfiguration = cryptographyConfiguration
                 };
