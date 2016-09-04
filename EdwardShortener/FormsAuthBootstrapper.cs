@@ -35,6 +35,7 @@ namespace EdwardShortener
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
             // create the cryptography config
+            StaticConfiguration.DisableErrorTraces = false;
             cryptographyConfiguration = new CryptographyConfiguration(
                        new RijndaelEncryptionProvider(new PassphraseKeyGenerator("SuperSecretPass", new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 })),
                        new DefaultHmacProvider(new PassphraseKeyGenerator("UberSuperSecure", new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 })));

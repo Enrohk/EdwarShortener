@@ -196,6 +196,10 @@
     <Content Include="Content\Scripts\jquery-2.2.3.min.map" />
     <Content Include="Views\Home\_TableUrl.cshtml" />
     <Content Include="Views\Home\_ShortedUrlInfo.cshtml" />
+    <None Include="Properties\PublishProfiles\iw-shortener - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\iw-shortener - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\shortener-iw - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\shortener-iw - Web Deploy.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -278,6 +282,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
